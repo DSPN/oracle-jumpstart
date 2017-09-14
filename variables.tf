@@ -6,11 +6,17 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 
 variable "compartment_ocid" {}
+
 variable "region" {
     default = "us-phoenix-1"
   }
 
-#variable "ssh_public_key" {}
+variable "ssh_public_key" {
+
+    default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAmdcyvIQnD497+A8X66VKdIqc7fhzm4dDUyazfg3qW5HudcPFmXi6kpyzkkzqgzk7l60cjVnCPcb+kV9LHs3i5hjQS63//NbRcz/YbPP6ICczWlebuHC1Ei0LcJTVDHt/alFBzlCIywFiTNogezcsXGLOgHmzIYE/PCPnpAiBALsC+0xJSafOiyQXtJBFcNl8VWflnZVtyGs+PVErc7/18BWpQ8bHCwycYFeqy/b1QfRSJ3HOR2tCGP66HTGJM89V/uLDEC1i95YZompHm4NaCI+f99CoszGbqmVEtdqEuF0C9MjLctUAkTC/LlBcgrOEcUFyQkkowZBBhMNOUQmz gilbertlau@MacBook-2.local"
+
+}
+
 #variable "ssh_private_key" {}
 
 variable "InstanceOS" {

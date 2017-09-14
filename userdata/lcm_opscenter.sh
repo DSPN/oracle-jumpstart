@@ -84,6 +84,10 @@ cd install-datastax-ubuntu-5.5.3/bin/lcm/
 # Retrieve OpsCenter's public IP address
 private_ip=`echo $(hostname -I)`
 
+# Retrieve bmc_rsa private key from a S3 bucket3 for LCM-based provisioning
+curl https://s3.us-east-2.amazonaws.com/oci-dse/bmc_rsa > ~opc/.ssh/bmc_rsa
+chown opc:opc ~opc/.ssh/bmc_rsa
+chmod 600 ~opc/.ssh/bmc_rsa
 privkey=$(readlink -f ~opc/.ssh/bmc_rsa)
 sleep 1m
 

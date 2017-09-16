@@ -7,14 +7,14 @@ data "baremetal_identity_availability_domains" "ADs" {
 
 # Gets the OCID of the OS image to use
 data "baremetal_core_images" "OLImageOCID" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${var.compartment_id}"
     operating_system = "${var.InstanceOS}"
     operating_system_version = "${var.InstanceOSVersion}"
 }
 
 # Gets a list of vNIC attachments on DSE_OPSC
 data "baremetal_core_vnic_attachments" "DSE_OPSC_Vnics" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${var.compartment_id}"
     availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
     instance_id = "${baremetal_core_instance.DSE_OPSC.id}"
 }
@@ -26,7 +26,7 @@ data "baremetal_core_vnic" "DSE_OPSC_Vnic" {
 
 # Gets a list of vNIC attachments on DSE_Node_0
 data "baremetal_core_vnic_attachments" "DSE_Node_0_Vnics" {
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${var.compartment_id}"
     availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
     instance_id = "${baremetal_core_instance.DSE_Node_0.id}"
 }

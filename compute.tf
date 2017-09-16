@@ -3,7 +3,7 @@
 resource "baremetal_core_instance" "DSE_OPSC" {
     depends_on = ["baremetal_core_subnet.DataStax_PublicSubnet_AD"]
     availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${var.compartment_id}"
     display_name = "OPSC_AD_1-0"
     image = "${var.OPSC_BASE_IMAGE_ID}"
     shape = "${var.OPSC_Shape}"
@@ -24,7 +24,7 @@ resource "baremetal_core_instance" "DSE_OPSC" {
 resource "baremetal_core_instance" "DSE_Node_0" {
     depends_on = ["baremetal_core_instance.DSE_OPSC"]
     availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${var.compartment_id}"
     display_name = "${format("DSE_AD_1-%d", count.index)}"
     image = "${lookup(data.baremetal_core_images.OLImageOCID.images[0], "id")}"
     shape = "${var.DSE_Shape}"
@@ -54,7 +54,7 @@ resource "baremetal_core_instance" "DSE_Node_0" {
 resource "baremetal_core_instance" "DSE_Node_1" {
     depends_on = ["baremetal_core_instance.DSE_OPSC"]
     availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1],"name")}"
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${var.compartment_id}"
     display_name = "${format("DSE_AD_2-%d", count.index)}"
     image = "${lookup(data.baremetal_core_images.OLImageOCID.images[0], "id")}"
     shape = "${var.DSE_Shape}"
@@ -78,7 +78,7 @@ resource "baremetal_core_instance" "DSE_Node_1" {
 resource "baremetal_core_instance" "DSE_Node_2" {
     depends_on = ["baremetal_core_instance.DSE_OPSC"]
     availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2],"name")}"
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = "${var.compartment_id}"
     display_name = "${format("DSE_AD_3-%d", count.index)}"
     image = "${lookup(data.baremetal_core_images.OLImageOCID.images[0], "id")}"
     shape = "${var.DSE_Shape}"

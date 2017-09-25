@@ -1,13 +1,13 @@
 # Compute resources
 
-resource "baremetal_core_instance" "DSE_OPSC" {
-    depends_on = ["baremetal_core_subnet.DataStax_PublicSubnet_AD"]
-    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+resource "oci_core_instance" "DSE_OPSC" {
+    depends_on = ["oci_core_subnet.DataStax_PublicSubnet_AD"]
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     compartment_id = "${var.compartment_id}"
     display_name = "OPSC_AD_1-0"
     image = "${var.OPSC_BASE_IMAGE_ID}"
     shape = "${var.OPSC_Shape}"
-    subnet_id = "${baremetal_core_subnet.DataStax_PublicSubnet_AD.0.id}"
+    subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.0.id}"
     metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
         user_data = "${base64encode(format("%s\n%s %s %s %s %s\n",
@@ -21,20 +21,20 @@ resource "baremetal_core_instance" "DSE_OPSC" {
     }
 }
 
-resource "baremetal_core_instance" "DSE_Node_0" {
-    depends_on = ["baremetal_core_instance.DSE_OPSC"]
-    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[0],"name")}"
+resource "oci_core_instance" "DSE_Node_0" {
+    depends_on = ["oci_core_instance.DSE_OPSC"]
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     compartment_id = "${var.compartment_id}"
     display_name = "${format("DSE_AD_1-%d", count.index)}"
-    image = "${lookup(data.baremetal_core_images.OLImageOCID.images[0], "id")}"
+    image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
     shape = "${var.DSE_Shape}"
-    subnet_id = "${baremetal_core_subnet.DataStax_PublicSubnet_AD.0.id}"
+    subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.0.id}"
     metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
         user_data = "${base64encode(format("%s\n%s %s %s %s %s %s\n",
            file(var.DSE_BootStrap),
            "./lcm_node.sh",
-           "${data.baremetal_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
+           "${data.oci_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
            "${var.DSE_Cluster_Name}",
            "${var.region}",
            "${var.Num_DSE_Nodes_In_Each_AD * 3}",
@@ -42,7 +42,7 @@ resource "baremetal_core_instance" "DSE_Node_0" {
         ))}"
     }
     create_vnic_details {
-        subnet_id = "${baremetal_core_subnet.DataStax_PublicSubnet_AD.0.id}"
+        subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.0.id}"
         display_name = "vnicdname"
         private_ip = "10.0.0.8"
         assign_public_ip = true
@@ -51,20 +51,20 @@ resource "baremetal_core_instance" "DSE_Node_0" {
 }
 
 
-resource "baremetal_core_instance" "DSE_Node_1" {
-    depends_on = ["baremetal_core_instance.DSE_OPSC"]
-    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[1],"name")}"
+resource "oci_core_instance" "DSE_Node_1" {
+    depends_on = ["oci_core_instance.DSE_OPSC"]
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
     compartment_id = "${var.compartment_id}"
     display_name = "${format("DSE_AD_2-%d", count.index)}"
-    image = "${lookup(data.baremetal_core_images.OLImageOCID.images[0], "id")}"
+    image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
     shape = "${var.DSE_Shape}"
-    subnet_id = "${baremetal_core_subnet.DataStax_PublicSubnet_AD.1.id}"
+    subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.1.id}"
     metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
         user_data = "${base64encode(format("%s\n%s %s %s %s %s %s\n",
            file(var.DSE_BootStrap),
            "./lcm_node.sh",
-           "${data.baremetal_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
+           "${data.oci_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
            "${var.DSE_Cluster_Name}",
            "${var.region}",
            "${var.Num_DSE_Nodes_In_Each_AD * 3}",
@@ -75,20 +75,20 @@ resource "baremetal_core_instance" "DSE_Node_1" {
 }
 
 
-resource "baremetal_core_instance" "DSE_Node_2" {
-    depends_on = ["baremetal_core_instance.DSE_OPSC"]
-    availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[2],"name")}"
+resource "oci_core_instance" "DSE_Node_2" {
+    depends_on = ["oci_core_instance.DSE_OPSC"]
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[2],"name")}"
     compartment_id = "${var.compartment_id}"
     display_name = "${format("DSE_AD_3-%d", count.index)}"
-    image = "${lookup(data.baremetal_core_images.OLImageOCID.images[0], "id")}"
+    image = "${lookup(data.oci_core_images.OLImageOCID.images[0], "id")}"
     shape = "${var.DSE_Shape}"
-    subnet_id = "${baremetal_core_subnet.DataStax_PublicSubnet_AD.2.id}"
+    subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.2.id}"
     metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
         user_data = "${base64encode(format("%s\n%s %s %s %s %s %s\n",
            file(var.DSE_BootStrap),
            "./lcm_node.sh",
-           "${data.baremetal_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
+           "${data.oci_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
            "${var.DSE_Cluster_Name}",
            "${var.region}",
            "${var.Num_DSE_Nodes_In_Each_AD * 3}",

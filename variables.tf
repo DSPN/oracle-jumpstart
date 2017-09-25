@@ -8,8 +8,8 @@ variable "private_key_path" {}
 variable "compartment_id" {}
 
 variable "region" {
-    default = "us-phoenix-1"
-  }
+    default = "us-ashburn-1"
+}
 
 variable "ssh_public_key" {
 
@@ -29,15 +29,14 @@ variable "InstanceOSVersion" {
 
 variable "DSE_Shape" {
     default = "VM.DenseIO1.8"
-#   default = "VM.DenseIO1.16"
 }
 
 variable "OPSC_BASE_IMAGE_ID" {
-    default = "ocid1.image.oc1.phx.aaaaaaaatrhddghn5rrfhwi5zdbzkii6g2n5zqq34w6wscpdz3c3j64ogjoa"
+    default = "ocid1.image.oc1.iad.aaaaaaaaq26ttrgohkahaewg3hjcakik3fdmh52fts6i5fhrfbqs4od54nwa"
 }
 
 variable "OPSC_Shape" {
-    default = "VM.Standard1.8"
+    default = "VM.DenseIO1.8"
 }
 
 variable "2TB" {

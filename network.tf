@@ -1,35 +1,35 @@
 # Network resources
 
-resource "baremetal_core_virtual_network" "DataStax_VCN" {
+resource "oci_core_virtual_network" "DataStax_VCN" {
   cidr_block = "10.0.0.0/16"
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   display_name = "DataStax_VCN"
 }
 
 
-resource "baremetal_core_internet_gateway" "DataStax_IG" {
-    depends_on = ["baremetal_core_virtual_network.DataStax_VCN"]
-    compartment_id = "${var.compartment_id}"
+resource "oci_core_internet_gateway" "DataStax_IG" {
+    depends_on = ["oci_core_virtual_network.DataStax_VCN"]
+    compartment_id = "${var.compartment_ocid}"
     display_name = "DataStax_IG"
-    vcn_id = "${baremetal_core_virtual_network.DataStax_VCN.id}"
+    vcn_id = "${oci_core_virtual_network.DataStax_VCN.id}"
 }
 
 
-resource "baremetal_core_route_table" "DataStax_RT" {
-    compartment_id = "${var.compartment_id}"
-    vcn_id = "${baremetal_core_virtual_network.DataStax_VCN.id}"
+resource "oci_core_route_table" "DataStax_RT" {
+    compartment_id = "${var.compartment_ocid}"
+    vcn_id = "${oci_core_virtual_network.DataStax_VCN.id}"
     display_name = "DataStax_RT"
     route_rules {
         cidr_block = "0.0.0.0/0"
-        network_entity_id = "${baremetal_core_internet_gateway.DataStax_IG.id}"
+        network_entity_id = "${oci_core_internet_gateway.DataStax_IG.id}"
     }
 }
 
 
-resource "baremetal_core_security_list" "DataStax_PublicSubnet" {
-    compartment_id = "${var.compartment_id}"
+resource "oci_core_security_list" "DataStax_PublicSubnet" {
+    compartment_id = "${var.compartment_ocid}"
     display_name = "DataStax_PublicSubnet"
-    vcn_id = "${baremetal_core_virtual_network.DataStax_VCN.id}"
+    vcn_id = "${oci_core_virtual_network.DataStax_VCN.id}"
     egress_security_rules = [{
         destination = "0.0.0.0/0"
         protocol = "6"
@@ -205,15 +205,15 @@ resource "baremetal_core_security_list" "DataStax_PublicSubnet" {
 }
 
 
-resource "baremetal_core_subnet" "DataStax_PublicSubnet_AD" {
-  availability_domain = "${lookup(data.baremetal_identity_availability_domains.ADs.availability_domains[count.index],"name")}"
+resource "oci_core_subnet" "DataStax_PublicSubnet_AD" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[count.index],"name")}"
   cidr_block = "${format("10.0.%d.0/24", count.index)}"
   display_name = "${format("PublicSubnetAD-%d", count.index)}"
-  compartment_id = "${var.compartment_id}"
-  vcn_id = "${baremetal_core_virtual_network.DataStax_VCN.id}"
-  route_table_id = "${baremetal_core_route_table.DataStax_RT.id}"
-  security_list_ids = ["${baremetal_core_security_list.DataStax_PublicSubnet.id}"]
-  dhcp_options_id = "${baremetal_core_virtual_network.DataStax_VCN.default_dhcp_options_id}"
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id = "${oci_core_virtual_network.DataStax_VCN.id}"
+  route_table_id = "${oci_core_route_table.DataStax_RT.id}"
+  security_list_ids = ["${oci_core_security_list.DataStax_PublicSubnet.id}"]
+  dhcp_options_id = "${oci_core_virtual_network.DataStax_VCN.default_dhcp_options_id}"
   count = 3
 }
 

@@ -1,7 +1,7 @@
 resource "null_resource" "local-exec" {
 
     provisioner "local-exec" {
-        command = "sleep 1500"
+        command = "sleep 1200"
       }
 }
 

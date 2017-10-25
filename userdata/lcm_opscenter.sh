@@ -51,6 +51,7 @@ unzip master.zip
 cd install-datastax-redhat-master/bin/
 ./os/install_java.sh
 ./opscenter/install.sh
+./opscenter/configure_opscenterd_conf.sh
 ./opscenter/start.sh
 
 

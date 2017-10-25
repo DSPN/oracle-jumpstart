@@ -2,9 +2,12 @@
 
 # Collect input param
 cluster_name=$1
-host_user_name=$2
-dsa_username=$3
-dsa_password=$4
+cluster_size=$2
+num_dcs=$3
+host_user_name=$4
+dsa_username=$5
+dsa_password=$6
+cassandra_user_pwd=$7
 opc_passwd="datastax1!"
 
 # In lcm_opscenter.sh
@@ -102,4 +105,18 @@ sleep 1m
 --user $host_user_name \
 --repouser $dsa_username \
 --repopw $dsa_password
+
+./triggerInstall.py \
+--opsc-ip $private_ip \
+--clustername $cluster_name \
+--clustersize $cluster_size \
+--dbpasswd $cassandra_user_pwd \
+--dclevel
+
+./waitForJobs.py \
+--num $num_dcs \
+--opsc-ip $private_ip 
+      
+# Alter required keyspaces for multi-DC
+./alterKeyspaces.py
 

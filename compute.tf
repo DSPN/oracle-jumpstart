@@ -10,13 +10,16 @@ resource "oci_core_instance" "DSE_OPSC" {
     subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.0.id}"
     metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
-        user_data = "${base64encode(format("%s\n%s %s %s %s %s\n",
+        user_data = "${base64encode(format("%s\n%s %s %s %s %s %s %s %s\n",
            file(var.OPSC_BootStrap),
            "./lcm_opscenter.sh",
            "${var.DSE_Cluster_Name}",
+           "3",
+           "1",
            "${var.host_user_name}",
            "${var.DataStax_Academy_Creds["username"]}",
-           "${var.DataStax_Academy_Creds["password"]}"
+           "${var.DataStax_Academy_Creds["password"]}",
+           "${var.Cassandra_DB_User_Password}"
         ))}"
     }
 }
@@ -31,14 +34,12 @@ resource "oci_core_instance" "DSE_Node_0" {
     subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.0.id}"
     metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
-        user_data = "${base64encode(format("%s\n%s %s %s %s %s %s\n",
+        user_data = "${base64encode(format("%s\n%s %s %s %s\n",
            file(var.DSE_BootStrap),
            "./lcm_node.sh",
            "${data.oci_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
            "${var.DSE_Cluster_Name}",
-           "${var.region}",
-           "${var.Num_DSE_Nodes_In_Each_AD * 3}",
-           "${var.Cassandra_DB_User_Password}"
+           "${var.region}"
         ))}"
     }
     create_vnic_details {
@@ -61,14 +62,12 @@ resource "oci_core_instance" "DSE_Node_1" {
     subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.1.id}"
     metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
-        user_data = "${base64encode(format("%s\n%s %s %s %s %s %s\n",
+        user_data = "${base64encode(format("%s\n%s %s %s %s\n",
            file(var.DSE_BootStrap),
            "./lcm_node.sh",
            "${data.oci_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
            "${var.DSE_Cluster_Name}",
-           "${var.region}",
-           "${var.Num_DSE_Nodes_In_Each_AD * 3}",
-           "${var.Cassandra_DB_User_Password}"
+           "${var.region}"
         ))}"
     }
     count = "${var.Num_DSE_Nodes_In_Each_AD}"
@@ -85,14 +84,12 @@ resource "oci_core_instance" "DSE_Node_2" {
     subnet_id = "${oci_core_subnet.DataStax_PublicSubnet_AD.2.id}"
     metadata {
         ssh_authorized_keys = "${var.ssh_public_key}"
-        user_data = "${base64encode(format("%s\n%s %s %s %s %s %s\n",
+        user_data = "${base64encode(format("%s\n%s %s %s %s\n",
            file(var.DSE_BootStrap),
            "./lcm_node.sh",
            "${data.oci_core_vnic.DSE_OPSC_Vnic.private_ip_address}",
            "${var.DSE_Cluster_Name}",
-           "${var.region}",
-           "${var.Num_DSE_Nodes_In_Each_AD * 3}",
-           "${var.Cassandra_DB_User_Password}"
+           "${var.region}"
         ))}"
     }
     count = "${var.Num_DSE_Nodes_In_Each_AD}"

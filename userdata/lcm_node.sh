@@ -62,9 +62,6 @@ private_ip=`echo $(hostname -I)`
 node_id=$private_ip
 rack="rack1"
 
-# Pass LCM's supported OS check
-touch -h /etc/redhat-release
-
 cd ~opc
 release="6.0.1"
 wget https://github.com/DSPN/install-datastax-ubuntu/archive/$release.zip

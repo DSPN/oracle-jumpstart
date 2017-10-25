@@ -65,8 +65,11 @@ private_ip=`echo $(hostname -I)`
 node_id=$private_ip
 rack="rack1"
 
+# Pass LCM's supported OS check
+touch /etc/redhat-release
+
 cd ~opc
-release="5.5.6"
+release="6.0.1"
 wget https://github.com/DSPN/install-datastax-ubuntu/archive/$release.zip
 unzip $release.zip
 cd install-datastax-ubuntu-$release/bin/lcm/
@@ -74,12 +77,10 @@ cd install-datastax-ubuntu-$release/bin/lcm/
 ./addNode.py \
 --opsc-ip $opsc_ip \
 --clustername $cluster_name \
---dcsize $data_center_size \
 --dcname $data_center_name \
 --rack $rack \
 --pubip $public_ip \
 --privip $private_ip \
---nodeid $node_id \
---dbpasswd $db_passwd
+--nodeid $node_id
 
 

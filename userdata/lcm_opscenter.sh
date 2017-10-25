@@ -77,7 +77,7 @@ popd
 
 ##### Set up cluster in OpsCenter the LCM way
 cd ~opc
-release="5.5.6"
+release="6.0.1"
 wget https://github.com/DSPN/install-datastax-ubuntu/archive/$release.zip
 unzip $release.zip
 cd install-datastax-ubuntu-$release/bin/lcm/

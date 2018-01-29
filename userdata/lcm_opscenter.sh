@@ -43,12 +43,10 @@ pip install requests
 
 ##### Install OpsCenter
 cd ~opc
-if [ -f master.zip ] ; then
-    rm -f master.zip
-fi
-wget https://github.com/DSPN/install-datastax-redhat/archive/master.zip
-unzip master.zip
-cd install-datastax-redhat-master/bin/
+release="6.0.4"
+wget https://github.com/DSPN/install-datastax-redhat/archive/$release.zip
+unzip $release.zip
+cd install-datastax-redhat-$release/bin/
 ./os/install_java.sh
 ./opscenter/install.sh
 ./opscenter/configure_opscenterd_conf.sh
@@ -82,8 +80,8 @@ popd
 ##### Set up cluster in OpsCenter the LCM way
 cd ~opc
 release="6.0.4"
-wget https://github.com/DSPN/install-datastax-ubuntu/archive/$release.zip
-unzip $release.zip
+wget https://github.com/DSPN/install-datastax-ubuntu/archive/$release.zip -O lcm-release.zip
+unzip lcm-$release.zip
 cd install-datastax-ubuntu-$release/bin/lcm/
 
 # Retrieve OpsCenter's public IP address

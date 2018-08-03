@@ -32,7 +32,7 @@ variable "DSE_Shape" {
 }
 
 variable "OPSC_BASE_IMAGE_ID" {
-    default = "ocid1.image.oc1.iad.aaaaaaaattztj7xealgchhh3x45sybaceyxe6zrzftiazi6vfgqgijx2p6ma"
+    default = "ocid1.image.oc1.iad.aaaaaaaafshx4shy6fpj247hmpp2p7x7iuwrdltysfjk4kfbqpy6an6fcs3q"
 }
 
 variable "OPSC_Shape" {
